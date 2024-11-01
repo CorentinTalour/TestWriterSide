@@ -1,0 +1,173 @@
+openapi: "3.1.0"
+info:
+  title: "Projet_Grp_Java API"
+  description: "API pour gérer les réservations dans le projet Java."
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/bookings:
+    get:
+      summary: "Récupérer toutes les réservations"
+      description: "Cette opération récupère toutes les réservations existantes."
+      operationId: "getAllBookings"
+      responses:
+        "200":
+          description: "Liste des réservations récupérées avec succès."
+          content:
+            application/json: # Utilisation de application/json
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/BookingResponse"
+    post:
+      summary: "Créer une nouvelle réservation"
+      description: "Cette opération permet de créer une nouvelle réservation."
+      operationId: "createBooking"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingRequest"
+      responses:
+        "201":
+          description: "Réservation créée avec succès."
+          content:
+            application/json: # Utilisation de application/json
+              schema:
+                type: "string"
+                example: "Réservation créée avec ID 12345"
+  /api/bookings/{id}:
+    get:
+      summary: "Récupérer une réservation spécifique"
+      description: "Cette opération permet de récupérer les détails d'une réservation spécifique par son ID."
+      operationId: "getBookingById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "L'ID de la réservation à récupérer"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Détails de la réservation récupérés avec succès."
+          content:
+            application/json: # Utilisation de application/json
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+    put:
+      summary: "Mettre à jour une réservation spécifique"
+      description: "Cette opération permet de mettre à jour les détails d'une réservation existante."
+      operationId: "updateBooking"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "L'ID de la réservation à mettre à jour"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingRequest"
+      responses:
+        "200":
+          description: "Réservation mise à jour avec succès."
+          content:
+            application/json: # Utilisation de application/json
+              schema:
+                type: "string"
+                example: "Réservation mise à jour avec ID 12345"
+    delete:
+      summary: "Supprimer une réservation spécifique"
+      description: "Cette opération permet de supprimer une réservation par son ID."
+      operationId: "deleteBooking"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "L'ID de la réservation à supprimer"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Réservation supprimée avec succès."
+          content:
+            application/json: # Utilisation de application/json
+              schema:
+                type: "string"
+                example: "Réservation supprimée avec succès."
+components:
+  schemas:
+    BookingResponse:
+      type: "object"
+      properties:
+        dateBegin:
+          type: "string"
+          format: "date-time"
+          description: "La date de début de la réservation."
+          example: "2024-11-01T10:00:00Z"
+        dateEnd:
+          type: "string"
+          format: "date-time"
+          description: "La date de fin de la réservation."
+          example: "2024-11-10T10:00:00Z"
+        price:
+          type: "number"
+          format: "float"
+          description: "Le prix total de la réservation."
+          example: 150.75
+        user_id:
+          type: "string"
+          description: "L'ID de l'utilisateur qui a effectué la réservation."
+          example: "12345"
+        hotel_id:
+          type: "string"
+          description: "L'ID de l'hôtel associé à la réservation."
+          example: "67890"
+        plane_id:
+          type: "string"
+          description: "L'ID de l'avion associé à la réservation."
+          example: "54321"
+        car_id:
+          type: "string"
+          description: "L'ID de la voiture associée à la réservation."
+          example: "98765"
+    BookingRequest:
+      type: "object"
+      properties:
+        dateBegin:
+          type: "string"
+          format: "date-time"
+          description: "La date de début de la réservation à créer."
+          example: "2024-11-01T10:00:00Z"
+        dateEnd:
+          type: "string"
+          format: "date-time"
+          description: "La date de fin de la réservation à créer."
+          example: "2024-11-10T10:00:00Z"
+        price:
+          type: "number"
+          format: "float"
+          description: "Le prix de la réservation à créer."
+          example: 150.75
+        user_id:
+          type: "string"
+          description: "L'ID de l'utilisateur qui fait la réservation."
+          example: "12345"
+        hotel_id:
+          type: "string"
+          description: "L'ID de l'hôtel pour la réservation."
+          example: "67890"
+        plane_id:
+          type: "string"
+          description: "L'ID de l'avion pour la réservation."
+          example: "54321"
+        car_id:
+          type: "string"
+          description: "L'ID de la voiture pour la réservation."
+          example: "98765"
